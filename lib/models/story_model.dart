@@ -13,7 +13,7 @@ class Story {
 }
 
 final Story sampleStory = Story(
-  title: "Pip and the Lost Gear",
+  title: "sudhakar and his food",
   text: "Once upon a time, there lived a ghost his name is sudhu sudhakar he sold porota",
   quiz: QuizQuestion.fromJson({
     "question": "What did Sudhakar sells ",
