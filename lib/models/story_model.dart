@@ -14,10 +14,10 @@ class Story {
 
 final Story sampleStory = Story(
   title: "Pip and the Lost Gear",
-  text: "Once upon a time, a clever little robot named Pip lost his shiny blue gear in the Whispering Woods...",
+  text: "Once upon a time, there lived a ghost his name is sudhu sudhakar he sold porota",
   quiz: QuizQuestion.fromJson({
-    "question": "What colour was Pip the Robot's lost gear?",
-    "options": ["Red", "Green", "Blue", "Yellow"],
-    "answer": "Blue"
+    "question": "What did Sudhakar sells ",
+    "options": ["porota", "puri", "pongal", "idly"],
+    "answer": "porota"
   }),
 );
