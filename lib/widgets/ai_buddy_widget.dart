@@ -38,13 +38,6 @@ class _AiBuddyWidgetState extends State<AiBuddyWidget>
     super.dispose();
   }
 
-  String get _expression {
-    if (widget.quizState == QuizState.correct) return '🤖✨';
-    if (widget.quizState == QuizState.wrong) return '🤖💭';
-    if (widget.audioState == AudioState.playing) return '🤖🎵';
-    return '🤖';
-  }
-
   String get _message {
     if (widget.quizState == QuizState.correct) return "You got it! Amazing! 🎉";
     if (widget.quizState == QuizState.wrong) return "Hmm, try again! You can do it! 💪";
@@ -53,6 +46,13 @@ class _AiBuddyWidgetState extends State<AiBuddyWidget>
     if (widget.audioState == AudioState.error) return "Oops! Something went wrong.";
     if (widget.audioState == AudioState.done) return "Now answer the question!";
     return "Hi! I'm Pip! Tap below to hear my story!";
+  }
+
+  Color get _heroColor {
+    if (widget.quizState == QuizState.correct) return const Color(0xFFFFD700);
+    if (widget.quizState == QuizState.wrong) return const Color(0xFFFF6B6B);
+    if (widget.audioState == AudioState.playing) return const Color(0xFF00CC44);
+    return const Color(0xFF00CC44);
   }
 
   @override
@@ -82,9 +82,9 @@ class _AiBuddyWidgetState extends State<AiBuddyWidget>
               ],
             ),
             child: Center(
-              child: Text(
-                _expression,
-                style: const TextStyle(fontSize: 44),
+              child: CustomPaint(
+                size: const Size(70, 70),
+                painter: _HeroPainter(color: _heroColor),
               ),
             ),
           ),
@@ -107,4 +107,50 @@ class _AiBuddyWidgetState extends State<AiBuddyWidget>
       ),
     );
   }
+}
+
+class _HeroPainter extends CustomPainter {
+  final Color color;
+  const _HeroPainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint();
+
+    // Body
+    paint.color = color;
+    paint.style = PaintingStyle.fill;
+    canvas.drawCircle(Offset(size.width / 2, size.height / 2), size.width / 2, paint);
+
+    // Watch symbol (circle on chest)
+    paint.color = Colors.black;
+    canvas.drawCircle(Offset(size.width / 2, size.height * 0.62), 10, paint);
+    paint.color = Colors.white;
+    canvas.drawCircle(Offset(size.width / 2, size.height * 0.62), 7, paint);
+    paint.color = Colors.black;
+    canvas.drawCircle(Offset(size.width / 2, size.height * 0.62), 4, paint);
+
+    // Eyes
+    paint.color = Colors.white;
+    canvas.drawCircle(Offset(size.width * 0.35, size.height * 0.38), 9, paint);
+    canvas.drawCircle(Offset(size.width * 0.65, size.height * 0.38), 9, paint);
+
+    // Pupils
+    paint.color = Colors.black;
+    canvas.drawCircle(Offset(size.width * 0.35, size.height * 0.38), 4, paint);
+    canvas.drawCircle(Offset(size.width * 0.65, size.height * 0.38), 4, paint);
+
+    // Smile
+    paint.color = Colors.black;
+    paint.style = PaintingStyle.stroke;
+    paint.strokeWidth = 2.5;
+    final path = Path();
+    path.moveTo(size.width * 0.3, size.height * 0.52);
+    path.quadraticBezierTo(
+        size.width * 0.5, size.height * 0.65, size.width * 0.7, size.height * 0.52);
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(_HeroPainter old) => old.color != color;
 }
