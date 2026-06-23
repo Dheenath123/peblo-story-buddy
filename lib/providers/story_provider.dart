@@ -13,8 +13,11 @@ class StoryProvider extends ChangeNotifier {
   QuizState quizState = QuizState.hidden;
   String? selectedOption;
   String? errorMessage;
+  int _currentIndex = 0;
 
-  final Story story = sampleStory;
+  Story get story => allStories[_currentIndex];
+  int get currentIndex => _currentIndex;
+  int get totalStories => allStories.length;
 
   StoryProvider() {
     _initTts();
@@ -44,14 +47,28 @@ class StoryProvider extends ChangeNotifier {
     });
   }
 
+  void nextStory() {
+    if (_currentIndex < allStories.length - 1) {
+      _currentIndex++;
+      reset();
+    }
+  }
+
+  void previousStory() {
+    if (_currentIndex > 0) {
+      _currentIndex--;
+      reset();
+    }
+  }
+
   Future<void> readStory() async {
     if (audioState == AudioState.playing) return;
     audioState = AudioState.loading;
     notifyListeners();
     try {
-      await _tts.setLanguage("en-IN");
+      await _tts.setLanguage("en-US");
       await _tts.setSpeechRate(0.45);
-      await _tts.setPitch(1.3);
+      await _tts.setPitch(1.1);
       await _tts.speak(story.text);
     } catch (e) {
       audioState = AudioState.error;
