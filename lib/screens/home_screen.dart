@@ -50,6 +50,7 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                   child: Column(
                     children: [
+                      // Header
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -84,7 +85,45 @@ class HomeScreen extends StatelessWidget {
                         audioState: provider.audioState,
                         quizState: provider.quizState,
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 16),
+                      // Story navigation
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: provider.currentIndex > 0
+                                ? provider.previousStory
+                                : null,
+                            icon: const Icon(Icons.arrow_back_ios_rounded),
+                            color: Colors.white,
+                            disabledColor: Colors.white30,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              "Story ${provider.currentIndex + 1} of ${provider.totalStories}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: provider.currentIndex < provider.totalStories - 1
+                                ? provider.nextStory
+                                : null,
+                            icon: const Icon(Icons.arrow_forward_ios_rounded),
+                            color: Colors.white,
+                            disabledColor: Colors.white30,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
                       StoryCardWidget(
                         storyText: provider.story.text,
                         audioState: provider.audioState,
